@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 public class Product {
 	
 	@Id
-	@GenericGenerator(name = "product_generator", type = com.aca.springdata.springProject.generators.CustomIdGenerator.class)
+	@GenericGenerator(name = "product_generator", type = com.aca.springdata.springProject.generators.CustomProductIdGenerator.class)
 	@GeneratedValue(generator = "product_generator")
 	@Column(name = "PRODUCT_ID")
 	private BigDecimal productId;

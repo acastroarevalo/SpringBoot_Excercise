@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,8 +51,21 @@ public class UserController {
 		return null;
 	}
 	
+	@PatchMapping("/users/{id}/{email}/{aoe}")
+	public User updateUser(@PathVariable("id") BigDecimal id, @PathVariable("email") String email, @PathVariable("aoe") String aoe) {
+		User user = repository.findByUserId(id).get(0);
+		user.setAreaOfInterest(aoe);
+		user.setEmail(email);
+		return repository.save(user);
+	}
+	
 	@DeleteMapping("/users/{id}")
 	public void deleteUser(@PathVariable("id") BigDecimal id) {
 		repository.deleteById(id);
+	}
+	
+	@DeleteMapping("/users/all")
+	public void deleteAllUsers() {
+		repository.deleteAll();
 	}
 }

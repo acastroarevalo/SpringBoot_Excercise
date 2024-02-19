@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 public class User {
 	
 	@Id
-	@GenericGenerator(name = "user_generator", type = com.aca.springdata.springProject.generators.CustomIdGenerator.class)
+	@GenericGenerator(name = "user_generator", type = com.aca.springdata.springProject.generators.CustomUserIdGenerator.class)
 	@GeneratedValue(generator = "user_generator")
 	@Column(name = "USER_ID")
 	private BigDecimal userId;

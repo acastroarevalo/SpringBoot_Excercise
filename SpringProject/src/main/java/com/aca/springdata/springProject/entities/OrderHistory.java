@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 public class OrderHistory {
 	
 	@Id
-	@GenericGenerator(name = "order_generator", type = com.aca.springdata.springProject.generators.CustomIdGenerator.class)
+	@GenericGenerator(name = "order_generator", type = com.aca.springdata.springProject.generators.CustomOrderIdGenerator.class)
 	@GeneratedValue(generator = "order_generator")
 	@Column(name = "ORDER_ID")
 	private BigDecimal orderId;

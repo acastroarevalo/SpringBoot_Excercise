@@ -1,5 +1,6 @@
 package com.aca.springdata.springProject.controllers;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,20 @@ public class ProductController {
 			existing_product.setTotalProductInventory(newInv);
 			return repository.save(existing_product);
 		}
+	}
+	
+	@PatchMapping("/products/{id}/{price}/{img}/{desc}/{total}")
+	public Product updateProduct(@PathVariable("id") BigDecimal id,
+			@PathVariable("price") Double price,
+			@PathVariable("img") byte[] img,
+			@PathVariable("desc") String desc,
+			@PathVariable("total") long total) {
+		Product product = repository.findByProductId(id).get(0);
+		product.setPrice(price);
+		product.setImage(img);
+		product.setDescription(desc);
+		product.setTotalProductInventory(total);
+		return repository.save(product);
 	}
 	
 	@PatchMapping("/products/{name}")

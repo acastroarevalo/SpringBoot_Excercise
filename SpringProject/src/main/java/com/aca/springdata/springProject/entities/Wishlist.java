@@ -17,7 +17,7 @@ import jakarta.persistence.Table;
 public class Wishlist {
 
 	@Id
-	@GenericGenerator(name = "wish_generator", type = com.aca.springdata.springProject.generators.CustomIdGenerator.class)
+	@GenericGenerator(name = "wish_generator", type = com.aca.springdata.springProject.generators.CustomWishlistIdGenerator.class)
 	@GeneratedValue(generator = "wish_generator")
 	@Column(name = "WISH_ID")
 	private BigDecimal wishId;
