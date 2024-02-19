@@ -1,8 +1,6 @@
 package com.aca.springdata.springProject.controllers;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,40 +11,39 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.aca.springdata.springProject.entities.OrderHistory;
-import com.aca.springdata.springProject.repos.OrderHistoryRepository;
+import com.aca.springdata.springProject.entities.Wishlist;
 import com.aca.springdata.springProject.repos.ProductRepository;
 import com.aca.springdata.springProject.repos.UserRepository;
+import com.aca.springdata.springProject.repos.WishlistRepository;
 
 @RestController
 @RequestMapping("/api")
-public class OrderHistoryController {
+public class WishlistController {
 
 	@Autowired
-	private OrderHistoryRepository repository;
+	private WishlistRepository repository;
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
 	private ProductRepository productRepository;
 	
-	@GetMapping("/orders")
-	public List<OrderHistory> getOrders(){
+	@GetMapping("/wishlist")
+	public List<Wishlist> getWishlist(){
 		return repository.findAll();
 	}
 	
-	@PostMapping("/orders/{userId}/{productId}")
-	public OrderHistory saveOrder(@PathVariable("userId") int userId, @PathVariable("productId") int productId) {
-		OrderHistory order = new OrderHistory();
-		Timestamp time = new Timestamp(new Date().getTime());
-		order.setOrderDate(time);
-		order.setUser(userRepository.findByUserId(BigDecimal.valueOf(userId)).get(0));
-		order.setProduct(productRepository.findByProductId(BigDecimal.valueOf(productId)).get(0));
-		return repository.save(order);
+	@PostMapping("/wishlist/{userId}/{productId}")
+	public Wishlist saveOrder(@PathVariable("userId") int userId, @PathVariable("productId") int productId) {
+		Wishlist wish = new Wishlist();
+		wish.setUser(userRepository.findByUserId(BigDecimal.valueOf(userId)).get(0));
+		wish.setProduct(productRepository.findByProductId(BigDecimal.valueOf(productId)).get(0));
+		return repository.save(wish);
 	}
 	
-	@DeleteMapping("/orders/{id}")
+	@DeleteMapping("/wishlist/{id}")
 	public void deleteOrder(@PathVariable("id") BigDecimal id) {
 		repository.deleteById(id);
 	}
+	
 	
 }
