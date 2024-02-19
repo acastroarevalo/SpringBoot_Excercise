@@ -1,6 +1,7 @@
 package com.aca.springdata.springProject.controllers;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,13 @@ public class WishlistController {
 		return repository.findAll();
 	}
 	
+	@GetMapping("/wishlist/{userId}")
+	public List<Wishlist> getWishByUser(@PathVariable("userId") BigDecimal id){
+		return repository.findByUser(userRepository.findByUserId(id).get(0));
+	}
+	
 	@PostMapping("/wishlist/{userId}/{productId}")
-	public Wishlist saveOrder(@PathVariable("userId") int userId, @PathVariable("productId") int productId) {
+	public Wishlist saveWish(@PathVariable("userId") int userId, @PathVariable("productId") int productId) {
 		Wishlist wish = new Wishlist();
 		wish.setUser(userRepository.findByUserId(BigDecimal.valueOf(userId)).get(0));
 		wish.setProduct(productRepository.findByProductId(BigDecimal.valueOf(productId)).get(0));
@@ -41,9 +47,32 @@ public class WishlistController {
 	}
 	
 	@DeleteMapping("/wishlist/{id}")
-	public void deleteOrder(@PathVariable("id") BigDecimal id) {
+	public void deleteWish(@PathVariable("id") BigDecimal id) {
 		repository.deleteById(id);
 	}
 	
+	@DeleteMapping("/wishlist/product/{productId}")
+	public void deleteWishByProduct(@PathVariable("productId") long id) {
+		//List<Wishlist> productWishes = new ArrayList<Wishlist>();
+		List<Wishlist> wishes = repository.findAll();
+		for(int i=0; i<wishes.size();i++) {
+			System.out.println(wishes.get(i).getProduct().getProductId());
+			if(wishes.get(i).getProduct().getProductId().equals(BigDecimal.valueOf(id))) {
+				repository.delete(wishes.get(i));
+			}
+		}
+	}
+	
+	@DeleteMapping("/wishlist/user/{userId}")
+	public void deleteWishByUser(@PathVariable("userId") long id) {
+		//List<Wishlist> productWishes = new ArrayList<Wishlist>();
+		List<Wishlist> wishes = repository.findAll();
+		for(int i=0; i<wishes.size();i++) {
+			System.out.println(wishes.get(i).getUser().getUserId());
+			if(wishes.get(i).getUser().getUserId().equals(BigDecimal.valueOf(id))) {
+				repository.delete(wishes.get(i));
+			}
+		}
+	}
 	
 }
