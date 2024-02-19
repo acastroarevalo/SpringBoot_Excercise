@@ -1,7 +1,6 @@
 package com.aca.springdata.springProject.controllers;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +52,6 @@ public class WishlistController {
 	
 	@DeleteMapping("/wishlist/product/{productId}")
 	public void deleteWishByProduct(@PathVariable("productId") long id) {
-		//List<Wishlist> productWishes = new ArrayList<Wishlist>();
 		List<Wishlist> wishes = repository.findAll();
 		for(int i=0; i<wishes.size();i++) {
 			System.out.println(wishes.get(i).getProduct().getProductId());
@@ -65,7 +63,6 @@ public class WishlistController {
 	
 	@DeleteMapping("/wishlist/user/{userId}")
 	public void deleteWishByUser(@PathVariable("userId") long id) {
-		//List<Wishlist> productWishes = new ArrayList<Wishlist>();
 		List<Wishlist> wishes = repository.findAll();
 		for(int i=0; i<wishes.size();i++) {
 			System.out.println(wishes.get(i).getUser().getUserId());
