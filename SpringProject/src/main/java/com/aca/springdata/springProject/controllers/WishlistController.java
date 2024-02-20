@@ -28,12 +28,14 @@ public class WishlistController {
 	private ProductRepository productRepository;
 	
 	@GetMapping("/wishlist")
-	public List<Wishlist> getWishlist(){
+	public List<Wishlist> getWishlist() throws Exception{
+		if (repository.findAll().isEmpty()) throw new Exception("Empty List");
 		return repository.findAll();
 	}
 	
 	@GetMapping("/wishlist/{userId}")
-	public List<Wishlist> getWishByUser(@PathVariable("userId") BigDecimal id){
+	public List<Wishlist> getWishByUser(@PathVariable("userId") BigDecimal id) throws Exception{
+		if (repository.findByUser(userRepository.findByUserId(id).get(0)).isEmpty()) throw new Exception("Object Not Found");
 		return repository.findByUser(userRepository.findByUserId(id).get(0));
 	}
 	
@@ -46,12 +48,14 @@ public class WishlistController {
 	}
 	
 	@DeleteMapping("/wishlist/{id}")
-	public void deleteWish(@PathVariable("id") BigDecimal id) {
+	public void deleteWish(@PathVariable("id") BigDecimal id) throws Exception {
+		if (repository.findById(id).isEmpty()) throw new Exception("Empty List");
 		repository.deleteById(id);
 	}
 	
 	@DeleteMapping("/wishlist/product/{productId}")
-	public void deleteWishByProduct(@PathVariable("productId") long id) {
+	public void deleteWishByProduct(@PathVariable("productId") long id) throws Exception {
+		if (repository.findByProduct(productRepository.findByProductId(BigDecimal.valueOf(id)).get(0)).isEmpty()) throw new Exception("Object Not Found");
 		List<Wishlist> wishes = repository.findAll();
 		for(int i=0; i<wishes.size();i++) {
 			System.out.println(wishes.get(i).getProduct().getProductId());
@@ -62,7 +66,8 @@ public class WishlistController {
 	}
 	
 	@DeleteMapping("/wishlist/user/{userId}")
-	public void deleteWishByUser(@PathVariable("userId") long id) {
+	public void deleteWishByUser(@PathVariable("userId") long id) throws Exception {
+		if (repository.findByUser(userRepository.findByUserId(BigDecimal.valueOf(id)).get(0)).isEmpty()) throw new Exception("Object Not Found");
 		List<Wishlist> wishes = repository.findAll();
 		for(int i=0; i<wishes.size();i++) {
 			System.out.println(wishes.get(i).getUser().getUserId());

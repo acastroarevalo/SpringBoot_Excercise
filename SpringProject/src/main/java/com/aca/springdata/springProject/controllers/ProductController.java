@@ -23,17 +23,20 @@ public class ProductController {
 	ProductRepository repository;
 	
 	@GetMapping("/products")
-	public List<Product> getProducts(){
+	public List<Product> getProducts() throws Exception{
+		if (repository.findAll().isEmpty()) throw new Exception("Empty List");
 		return repository.findAll();
 	}
 	
 	@GetMapping("/products/price/{price}")
-	public List<Product> getProductByPrice(@PathVariable("price") Double price) {
+	public List<Product> getProductByPrice(@PathVariable("price") Double price) throws Exception {
+		if (repository.findByPrice(price).isEmpty()) throw new Exception("Object not found");
 		return repository.findByPrice(price);
 	}
 	
 	@GetMapping("/products/name/{name}")
-	public Product getProductByName(@PathVariable("name") String name) {
+	public Product getProductByName(@PathVariable("name") String name) throws Exception {
+		if (repository.findByName(name).isEmpty()) throw new Exception("Object not found");
 		return repository.findByName(name).get(0);
 	}
 	
@@ -58,7 +61,8 @@ public class ProductController {
 			@PathVariable("price") Double price,
 			@PathVariable("img") byte[] img,
 			@PathVariable("desc") String desc,
-			@PathVariable("total") long total) {
+			@PathVariable("total") long total) throws Exception {
+		if (repository.findByProductId(id).isEmpty()) throw new Exception("Object not found");
 		Product product = repository.findByProductId(id).get(0);
 		product.setPrice(price);
 		product.setImage(img);
@@ -68,7 +72,8 @@ public class ProductController {
 	}
 	
 	@PatchMapping("/products/{name}")
-	public Product deleteProduct(@PathVariable String name) {
+	public Product deleteProduct(@PathVariable String name) throws Exception {
+		if (repository.findByName(name).isEmpty()) throw new Exception("Object not found");
 		Product product = repository.findByName(name).get(0);
 		product.setStatus(false);
 		return repository.save(product);

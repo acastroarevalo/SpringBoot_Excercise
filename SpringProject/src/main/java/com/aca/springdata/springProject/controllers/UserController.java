@@ -24,17 +24,20 @@ public class UserController {
 	private UserRepository repository;
 	
 	@GetMapping("/users")
-	public List<User> getUsers(){
+	public List<User> getUsers() throws Exception{
+		if (repository.findAll().isEmpty()) throw new Exception("Empty List");
 		return repository.findAll();
 	}
 	
 	@GetMapping("/users/email/{email}")
-	public User getUserByEmail(@PathVariable("email") String email) {
+	public User getUserByEmail(@PathVariable("email") String email) throws Exception {
+		if (repository.findByEmail(email).isEmpty()) throw new Exception("Object not found");
 		return repository.findByEmail(email).get(0);
 	}
 	
 	@GetMapping("/users/name/{name}")
-	public List<User> getUserByName(@PathVariable("name") String name) {
+	public List<User> getUserByName(@PathVariable("name") String name) throws Exception {
+		if (repository.findByName(name).isEmpty()) throw new Exception("Object not found");
 		return repository.findByName(name);
 	}
 	
@@ -52,7 +55,8 @@ public class UserController {
 	}
 	
 	@PatchMapping("/users/{id}/{email}/{aoe}")
-	public User updateUser(@PathVariable("id") BigDecimal id, @PathVariable("email") String email, @PathVariable("aoe") String aoe) {
+	public User updateUser(@PathVariable("id") BigDecimal id, @PathVariable("email") String email, @PathVariable("aoe") String aoe) throws Exception {
+		if (repository.findByUserId(id).isEmpty()) throw new Exception("Object not found");
 		User user = repository.findByUserId(id).get(0);
 		user.setAreaOfInterest(aoe);
 		user.setEmail(email);
@@ -60,12 +64,14 @@ public class UserController {
 	}
 	
 	@DeleteMapping("/users/{id}")
-	public void deleteUser(@PathVariable("id") BigDecimal id) {
+	public void deleteUser(@PathVariable("id") BigDecimal id) throws Exception {
+		if (repository.findByUserId(id).isEmpty()) throw new Exception("Object not found");
 		repository.deleteById(id);
 	}
 	
 	@DeleteMapping("/users/all")
-	public void deleteAllUsers() {
+	public void deleteAllUsers() throws Exception {
+		if (repository.findAll().isEmpty()) throw new Exception("Empty List");
 		repository.deleteAll();
 	}
 }

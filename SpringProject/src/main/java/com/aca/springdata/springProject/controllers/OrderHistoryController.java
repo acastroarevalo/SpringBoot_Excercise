@@ -2,7 +2,6 @@ package com.aca.springdata.springProject.controllers;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +31,8 @@ public class OrderHistoryController {
 	private ProductRepository productRepository;
 	
 	@GetMapping("/orders")
-	public List<OrderHistory> getOrders(){
+	public List<OrderHistory> getOrders() throws Exception{
+		if (repository.findAll().isEmpty()) throw new Exception("Empty List");
 		return repository.findAll();
 	}
 	
@@ -61,7 +61,8 @@ public class OrderHistoryController {
 	}
 	
 	@DeleteMapping("/orders/{id}")
-	public void deleteOrder(@PathVariable("id") BigDecimal id) {
+	public void deleteOrder(@PathVariable("id") BigDecimal id) throws Exception {
+		if (repository.findById(id).isEmpty()) throw new Exception("Object Not Found");
 		repository.deleteById(id);
 	}
 	
