@@ -9,7 +9,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -26,17 +25,17 @@ public class Product {
 	private String name;
 	@Column(name = "PRICE")
 	private double price;
-	@Lob
+	//@Lob
 	@Column(name = "IMAGE")
-	private byte[] image;
+	private String image;
 	@Column(name = "DESCRIPTION")
 	private String description;
 	@Column(name = "TOTAL_PRODUCTS_INVENTORY")
 	private long totalProductInventory;
 	@Column(name = "STATUS")
 	private boolean status;
-	@OneToMany(mappedBy = "product")
-	private List<OrderHistory> orders;
+	/*@OneToMany(mappedBy = "product")
+	private List<OrderHistory> orders;*/
 	@OneToMany(mappedBy = "product")
 	private List<Wishlist> wishes;
 
@@ -64,11 +63,11 @@ public class Product {
 		this.price = price;
 	}
 
-	public byte[] getImage() {
+	public String getImage() {
 		return image;
 	}
 
-	public void setImage(byte[] image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 
@@ -94,14 +93,6 @@ public class Product {
 
 	public void setStatus(boolean status) {
 		this.status = status;
-	}
-
-	public List<OrderHistory> getOrders() {
-		return orders;
-	}
-
-	public void setOrders(List<OrderHistory> orders) {
-		this.orders = orders;
 	}
 
 }

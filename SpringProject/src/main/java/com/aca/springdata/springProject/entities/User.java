@@ -32,6 +32,8 @@ public class User {
 	private String email;
 	@Column(name = "AREA_OF_INTEREST")
 	private String areaOfInterest;
+	@Column(name = "PWD")
+	private String pwd;
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<OrderHistory> orders;
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -85,12 +87,12 @@ public class User {
 		this.areaOfInterest = areaOfInterest;
 	}
 
-	public List<OrderHistory> getOrders() {
-		return orders;
+	public String getPwd() {
+		return pwd;
 	}
 
-	public void setOrders(List<OrderHistory> orders) {
-		this.orders = orders;
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,12 +42,23 @@ public class WishlistController {
 	
 	@PostMapping("/wishlist/{userId}/{productId}")
 	public Wishlist saveWish(@PathVariable("userId") int userId, @PathVariable("productId") int productId) {
+		
+		List<Wishlist> wishes = repository.findAll();
+		for(int i=0; i<wishes.size();i++) {
+			if( wishes.get(i).getProduct().getProductId().equals(BigDecimal.valueOf(productId)) & 
+					wishes.get(i).getUser().getUserId().equals(BigDecimal.valueOf(userId)) ) {
+				System.out.println("EXISTING PRODUCT IN WISHLIST");
+				return null;
+			}
+		}
+		
 		Wishlist wish = new Wishlist();
 		wish.setUser(userRepository.findByUserId(BigDecimal.valueOf(userId)).get(0));
 		wish.setProduct(productRepository.findByProductId(BigDecimal.valueOf(productId)).get(0));
 		return repository.save(wish);
 	}
 	
+	@CrossOrigin(origins = "*")
 	@DeleteMapping("/wishlist/{id}")
 	public void deleteWish(@PathVariable("id") BigDecimal id) throws Exception {
 		if (repository.findById(id).isEmpty()) throw new Exception("Empty List");
@@ -65,6 +77,7 @@ public class WishlistController {
 		}
 	}
 	
+	@CrossOrigin(origins = "*")
 	@DeleteMapping("/wishlist/user/{userId}")
 	public void deleteWishByUser(@PathVariable("userId") long id) throws Exception {
 		if (repository.findByUser(userRepository.findByUserId(BigDecimal.valueOf(id)).get(0)).isEmpty()) throw new Exception("Object Not Found");

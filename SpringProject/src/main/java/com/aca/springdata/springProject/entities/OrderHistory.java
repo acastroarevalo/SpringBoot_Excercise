@@ -24,12 +24,18 @@ public class OrderHistory {
 	private BigDecimal orderId;
 	@Column(name = "ORDER_DATE")
 	private Timestamp orderDate;
+	@Column(name = "PRODUCT_IDS")
+	private String products;
+	@Column(name = "PRODUCT_QUANTITY")
+	private String productsQuantity;
+	@Column(name = "TOTAL")
+	private double total;
 	@ManyToOne
 	@JoinColumn(name = "USER_ID")
 	private User user;
-	@ManyToOne
+	/*@ManyToOne
 	@JoinColumn(name = "PRODUCT_ID")
-	private Product product;
+	private Product product;*/
 
 	public BigDecimal getOrderId() {
 		return orderId;
@@ -55,12 +61,28 @@ public class OrderHistory {
 		this.user = user;
 	}
 
-	public Product getProduct() {
-		return product;
+	public String getProducts() {
+		return products;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setProducts(String products) {
+		this.products = products;
+	}
+
+	public String getProductsQuantity() {
+		return productsQuantity;
+	}
+
+	public void setProductsQuantity(String productsQuantity) {
+		this.productsQuantity = productsQuantity;
+	}
+
+	public double getTotal() {
+		return total;
+	}
+
+	public void setTotal(double total) {
+		this.total = total;
 	}
 
 }

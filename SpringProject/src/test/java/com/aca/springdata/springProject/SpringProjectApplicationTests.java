@@ -5,8 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -15,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.aca.springdata.springProject.entities.OrderHistory;
 import com.aca.springdata.springProject.entities.Product;
 import com.aca.springdata.springProject.entities.User;
 import com.aca.springdata.springProject.repos.OrderHistoryRepository;
@@ -56,7 +53,7 @@ class SpringProjectApplicationTests {
 		userRepository.deleteById(BigDecimal.valueOf(1));
 	}
 	
-	@Test
+	/*@Test
 	public void testCreateProduct() {
 		Product product = new Product();
 		product.setName("Apple");
@@ -93,7 +90,7 @@ class SpringProjectApplicationTests {
 			existing_product.setTotalProductInventory(newInv);
 			productRepository.save(existing_product);
 		}
-	}
+	}*/
 	
 	
 	

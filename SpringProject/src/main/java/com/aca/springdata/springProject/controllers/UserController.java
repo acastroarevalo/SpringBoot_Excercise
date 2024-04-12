@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -54,14 +55,19 @@ public class UserController {
 		return null;
 	}
 	
-	@PatchMapping("/users/{id}/{email}/{aoe}")
-	public User updateUser(@PathVariable("id") BigDecimal id, @PathVariable("email") String email, @PathVariable("aoe") String aoe) throws Exception {
+	@CrossOrigin(origins = "*")
+	@PatchMapping("/users/{id}")
+	public User editUser(@RequestBody User editedUser, @PathVariable("id") BigDecimal id) throws Exception {
 		if (repository.findByUserId(id).isEmpty()) throw new Exception("Object not found");
 		User user = repository.findByUserId(id).get(0);
-		user.setAreaOfInterest(aoe);
-		user.setEmail(email);
+		user.setName(editedUser.getName());
+		user.setLastName(editedUser.getLastName());
+		user.setEmail(editedUser.getEmail());
+		user.setBio(editedUser.getBio());
+		user.setAreaOfInterest(editedUser.getAreaOfInterest());
+		user.setPwd(editedUser.getPwd());
 		return repository.save(user);
-	}
+		}
 	
 	@DeleteMapping("/users/{id}")
 	public void deleteUser(@PathVariable("id") BigDecimal id) throws Exception {

@@ -44,6 +44,8 @@ public class ProductController {
 	public Product saveProduct(@RequestBody Product product) {
 		List<Product> names = repository.findByName(product.getName());
 		if (names.isEmpty()) {
+			product.setTotalProductInventory(1);
+			product.setStatus(true);
 			return repository.save(product);
 		}else {
 			System.out.println("----------------------------------------------\n"
@@ -59,7 +61,7 @@ public class ProductController {
 	@PatchMapping("/products/{id}/{price}/{img}/{desc}/{total}")
 	public Product updateProduct(@PathVariable("id") BigDecimal id,
 			@PathVariable("price") Double price,
-			@PathVariable("img") byte[] img,
+			@PathVariable("img") String img,
 			@PathVariable("desc") String desc,
 			@PathVariable("total") long total) throws Exception {
 		if (repository.findByProductId(id).isEmpty()) throw new Exception("Object not found");
